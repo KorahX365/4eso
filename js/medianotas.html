@@ -31,16 +31,16 @@
     <div class="max-w-md w-full bg-gray-800 p-6 rounded-lg shadow-lg">
         <form id="userForm" class="space-y-4">
             <div>
-                <label for="nombre" class="block text-sm font-medium">Nombre</label>
-                <input type="text" id="nombre" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: Ana" required>
+                <label for="nota1" class="block text-sm font-medium">Nota del primer examen</label>
+                <input type="number" id="nota1" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: 7" required>
             </div>
             <div>
-                <label for="edad" class="block text-sm font-medium">Edad</label>
-                <input type="number" id="edad" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: 15" required>
+                <label for="nota2" class="block text-sm font-medium">Nota del segundo examen</label>
+                <input type="number" id="nota2" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: 5" required>
             </div>
             <div>
-                <label for="ciudad" class="block text-sm font-medium">Ciudad</label>
-                <input type="text" id="ciudad" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: Madrid" required>
+                <label for="nota3" class="block text-sm font-medium">Nota del tercer examen</label>
+                <input type="number" id="nota3" class="mt-1 p-2 w-full bg-gray-700 rounded-lg text-white" placeholder="Ej: 9" required>
             </div>
             <button type="submit" id="submitBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg w-full">Enviar</button>
         </form>
@@ -53,32 +53,23 @@
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            let nombre = document.getElementById('nombre').value;
-            let edad = Number(document.getElementById('edad').value);
-            let ciudad = document.getElementById('ciudad').value;
-
-            if (!nombre || !edad || !ciudad) {
+            let nota1 = Number(document.getElementById('nota1').value);
+            let nota2 = Number(document.getElementById('nota2').value);
+            let nota3 = Number(document.getElementById('nota3').value);
+            if (!nota1 || !nota2 || !nota3) {
                 alert('Por favor, completa todos los campos.');
                 return;
             }
 
-            let mensajeconducir = edad >= 18 ? "El usuario puede conducir" : "El usuario no puede conducir";
+            let medianotas = (nota1 + nota2 + nota3)/3
+            let mensajenotas = medianotas >= 5 ? "El usuario ha aprobado." : "El usuario no ha aprobado.";
 
-            alert(`Hola, ${nombre}. Tienes ${edad} años y vives en ${ciudad}. ${mensajeconducir}`);
+            alert(`Tu media es ${medianotas}/10. ${mensajenotas} `);
 
             form.reset();
         });
 
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
     </script>
 </body>
-<br> © Diego Caravantes Monleón <br> <i> Nota: Esta página incluye los ejercicios 1, 2 y 3 del bloque 1 y el ejercicio 1 del bloque 2. </i>
+<br> © Diego Caravantes Monleón <br> <i> Nota: Esta página incluye el ejercicio 2 del bloque 2. </i>
 </html>
