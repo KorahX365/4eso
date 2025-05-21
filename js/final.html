@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Estudiante</title>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(20, 20, 20, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #ff9448;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .form-page {
+            display: none;
+        }
+        .form-page.active {
+            display: block;
+        }
+        .form-page div {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-page label {
+            font-size: 16px;
+            width: 120px; /* Ancho fijo para etiquetas */
+            text-align: right;
+        }
+        .form-page input, .form-page select {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #2d3748;
+            color: #e0e0e0;
+            width: 200px; /* Ancho uniforme para todos los inputs y selects */
+        }
+        .form-page button {
+            padding: 8px 16px;
+            background-color: #ff9448;
+            color: #1a202c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .form-page button:hover {
+            background-color: #e07b39;
+        }
+
+        #resumen {
+            font-size: 16px;
+            color: #e0e0e0;
+            text-align: left;
+            padding: 10px;
+            background-color: #2d3748;
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 30px; /* espacio entre filas y columnas */
+        }
+        #resumen h3 {
+            grid-column: 1 / -1;
+            margin-bottom: 10px;
+            color: #ff9448;
+        }
+
+        #bachillerato-modalidad {
+            display: none;
+        }
+        #media-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario Estudiante</h1>
+        <div id="pagina1" class="form-page active">
+            <div>
+                <label>Nombre:</label>
+                <input type="text" id="nombre">
+            </div>
+            <div>
+                <label>Apellidos:</label>
+                <input type="text" id="apellidos">
+            </div>
+            <div>
+                <label>Fecha de Nacimiento:</label>
+                <input type="date" id="fechaNacimiento">
+            </div>
+            <div>
+                <label>Curso:</label>
+                <select id="curso" onchange="mostrarModalidad()">
+                    <optgroup label="Primaria">
+                        <option value="1º Primaria">1º Primaria</option>
+                        <option value="2º Primaria">2º Primaria</option>
+                        <option value="3º Primaria">3º Primaria</option>
+                        <option value="4º Primaria">4º Primaria</option>
+                        <option value="5º Primaria">5º Primaria</option>
+                        <option value="6º Primaria">6º Primaria</option>
+                    </optgroup>
+                    <optgroup label="ESO">
+                        <option value="1º ESO">1º ESO</option>
+                        <option value="2º ESO">2º ESO</option>
+                        <option value="3º ESO">3º ESO</option>
+                        <option value="4º ESO">4º ESO</option>
+                    </optgroup>
+                    <optgroup label="Bachillerato">
+                        <option value="1º Bachillerato">1º Bachillerato</option>
+                        <option value="2º Bachillerato">2º Bachillerato</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div id="bachillerato-modalidad">
+                <label>Modalidad:</label>
+                <select id="modalidad">
+                    <option value="Ciencias">Ciencias</option>
+                    <option value="Humanidades">Humanidades</option>
+                    <option value="Artístico">Artístico</option>
+                </select>
+            </div>
+            <div>
+                <label>Instituto:</label>
+                <input type="text" id="instituto">
+            </div>
+            <button onclick="siguientePagina(2)">Siguiente</button>
+        </div>
+        <div id="pagina2" class="form-page">
+            <div>
+                <label>Nota 1:</label>
+                <input type="number" id="nota1" min="0" max="10" step="0.1">
+            </div>
+            <div>
+                <label>Nota 2:</label>
+                <input type="number" id="nota2" min="0" max="10" step="0.1">
+            </div>
+            <div>
+                <label>Nota 3:</label>
+                <input type="number" id="nota3" min="0" max="10" step="0.1">
+            </div>
+            <div id="media-container">
+                <label>Media:</label>
+                <span id="media"></span>
+            </div>
+            <button onclick="siguientePagina(3)">Siguiente</button>
+        </div>
+        <div id="pagina3" class="form-page">
+            <div id="resumen"></div>
+        </div>
+    </div>
+
+    <script>
+        let paginaActual = 1;
+
+        // Función para mostrar el dropdown de modalidad si se selecciona Bachillerato
+        function mostrarModalidad() {
+            const curso = document.getElementById('curso').value;
+            const modalidadDiv = document.getElementById('bachillerato-modalidad');
+            if (curso === '1º Bachillerato' || curso === '2º Bachillerato') {
+                modalidadDiv.style.display = 'flex';
+            } else {
+                modalidadDiv.style.display = 'none';
+                document.getElementById('modalidad').value = ''; // Limpiar selección
+            }
+        }
+
+        // Función para avanzar a la siguiente página
+        function siguientePagina(nuevaPagina) {
+            document.getElementById(`pagina${paginaActual}`).classList.remove('active');
+            paginaActual = nuevaPagina;
+            document.getElementById(`pagina${paginaActual}`).classList.add('active');
+
+            if (paginaActual === 2) {
+                calcularMedia();
+            } else if (paginaActual === 3) {
+                mostrarResumen();
+            }
+        }
+
+        // Función para calcular la media
+        function calcularMedia() {
+            const nota1 = parseFloat(document.getElementById('nota1').value) || 0;
+            const nota2 = parseFloat(document.getElementById('nota2').value) || 0;
+            const nota3 = parseFloat(document.getElementById('nota3').value) || 0;
+            const media = (nota1 + nota2 + nota3) / 3;
+            document.getElementById('media').textContent = media.toFixed(2);
+        }
+
+        // Función para calcular la edad
+        function calcularEdad(fechaNacimiento) {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            const mes = hoy.getMonth() - nacimiento.getMonth();
+            if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        }
+
+        // Función para mostrar el resumen
+        function mostrarResumen() {
+            const nombre = document.getElementById('nombre').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+            const curso = document.getElementById('curso').value;
+            const modalidad = document.getElementById('modalidad').value;
+            const instituto = document.getElementById('instituto').value;
+            const nota1 = parseFloat(document.getElementById('nota1').value) || 0;
+            const nota2 = parseFloat(document.getElementById('nota2').value) || 0;
+            const nota3 = parseFloat(document.getElementById('nota3').value) || 0;
+            const media = (nota1 + nota2 + nota3) / 3;
+
+            const cursoCompleto = modalidad ? `${curso} - ${modalidad}` : curso;
+            const edad = calcularEdad(fechaNacimiento);
+
+            const resumen = `
+                <h3>Boletín de Notas</h3>
+                <strong>Nombre completo:</strong> ${nombre} ${apellidos}<br>
+                <strong>Fecha de Nacimiento:</strong> ${fechaNacimiento}<br>
+                <strong>Edad:</strong> ${edad} años<br>
+                <br>
+                <strong>Instituto:</strong> ${instituto}<br>
+                <strong>Curso:</strong> ${cursoCompleto}<br>
+                <br>
+                <strong>Nota 1:</strong> ${nota1.toFixed(1)}<br>
+                <strong>Nota 2:</strong> ${nota2.toFixed(1)}<br>
+                <strong>Nota 3:</strong> ${nota3.toFixed(1)}<br>
+                <br>
+                <strong>Media:</strong> ${media.toFixed(2)}<br>
+            `;
+
+            document.getElementById('resumen').innerHTML = resumen;
+        }
+    </script>
+</body>
+</html>

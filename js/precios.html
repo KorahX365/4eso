@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Ticket</title>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(20, 20, 20, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #ff9448;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            color: #ff9448;
+            font-weight: bold;
+        }
+        td input {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #2d3748;
+            color: #e0e0e0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        td.nombre {
+            width: 50%;
+        }
+        td.precios {
+            width: 25%;
+        }
+        td.cantidades {
+            width: 25%;
+        }
+        td input[type="number"] {
+            width: 100%;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #ff9448;
+            color: #1a202c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e07b39;
+        }
+        #total {
+            font-size: 20px;
+            color: #ff9448;
+            margin-bottom: 20px;
+        }
+        #ticket {
+            background-color: #2d3748;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            display: none;
+        }
+        #ticket h2 {
+            color: #ff9448;
+            margin-top: 0;
+        }
+        #ticket p {
+            margin: 5px 0;
+        }
+        .incompleta {
+            background-color: rgba(255, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Ticket</h1>
+        <table id="tablaProductos">
+            <thead>
+                <tr>
+                    <th>Nombre del Artículo</th>
+                    <th>Precio (€)</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="filasProductos">
+                <tr>
+                    <td class="nombre"><input type="text" class="nombre" placeholder="Ej: Tarta"></td>
+                    <td class="precios"><input type="number" class="precio" placeholder="0.00" step="0.01" min="0"></td>
+                    <td class="cantidades"><input type="number" class="cantidad" placeholder="0" min="0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p id="total">Total: 0.00 €</p>
+        <button onclick="generarTicket()">Generar Ticket</button>
+        <div id="ticket"></div>
+    </div>
+
+    <script>
+        const tabla = document.getElementById('filasProductos');
+        const totalDisplay = document.getElementById('total');
+        const ticketDiv = document.getElementById('ticket');
+
+        function agregarFila() {
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.innerHTML = `
+                <td class="nombre"><input type="text" class="nombre" placeholder="Ej: Tarta"></td>
+                <td class="precios"><input type="number" class="precio" placeholder="0.00" step="0.01" min="0"></td>
+                <td class="cantidades"><input type="number" class="cantidad" placeholder="0" min="0"></td>
+            `;
+            tabla.appendChild(nuevaFila);
+            añadirEventosFila(nuevaFila);
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            const filas = tabla.querySelectorAll('tr');
+            filas.forEach(fila => {
+                const nombre = fila.querySelector('.nombre').value.trim();
+                const precio = parseFloat(fila.querySelector('.precio').value) || 0;
+                const cantidad = parseInt(fila.querySelector('.cantidad').value) || 0;
+                total += precio * cantidad;
+
+                const camposLlenos = [nombre, precio, cantidad].filter(val => val !== '' && val !== 0).length;
+                if (camposLlenos > 0 && camposLlenos < 3) {
+                    fila.classList.add('incompleta');
+                } else {
+                    fila.classList.remove('incompleta');
+                }
+            });
+            totalDisplay.textContent = `Total: ${total.toFixed(2)} €`;
+        }
+
+        function añadirEventosFila(fila) {
+            const inputs = fila.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    calcularTotal();
+                    const nombre = fila.querySelector('.nombre').value.trim();
+                    const precio = fila.querySelector('.precio').value;
+                    const cantidad = fila.querySelector('.cantidad').value;
+                    if (nombre && precio && cantidad && fila === tabla.lastElementChild) {
+                        agregarFila();
+                    }
+                });
+                input.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        const nombre = fila.querySelector('.nombre').value.trim();
+                        const precio = fila.querySelector('.precio').value;
+                        const cantidad = fila.querySelector('.cantidad').value;
+                        if (nombre && precio && cantidad && fila === tabla.lastElementChild) {
+                            agregarFila();
+                        }
+                    }
+                });
+            });
+        }
+
+        function generarTicket() {
+            const filas = tabla.querySelectorAll('tr');
+            let contenido = '<h2>Ticket de Compra</h2>';
+            let total = 0;
+            filas.forEach((fila, index) => {
+                const nombre = fila.querySelector('.nombre').value.trim();
+                const precio = parseFloat(fila.querySelector('.precio').value) || 0;
+                const cantidad = parseInt(fila.querySelector('.cantidad').value) || 0;
+                if (nombre && precio && cantidad) {
+                    const subtotal = precio * cantidad;
+                    total += subtotal;
+                    contenido += `<p>${index + 1}. ${nombre} - ${cantidad} x ${precio.toFixed(2)} € = ${subtotal.toFixed(2)} €</p>`;
+                }
+            });
+            contenido += `<p><strong>Total: ${total.toFixed(2)} €</strong></p>`;
+            ticketDiv.innerHTML = contenido;
+            ticketDiv.style.display = 'block';
+        }
+
+        añadirEventosFila(tabla.querySelector('tr'));
+    </script>
+</body>
+<br> © Diego Caravantes Monleón <br> <i> Nota: Esta página incluye el ejercicio 3 del bloque 3. </i>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Área de Triángulos</title>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(20, 20, 20, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #ff9448;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .formulario {
+            background-color: #1a202cfa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .formulario div {
+            margin: 10px 0;
+        }
+        .formulario label {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .formulario input {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #1f2937;
+            color: #e0e0e0;
+            width: 100px;
+        }
+        .formulario button {
+            padding: 8px 16px;
+            background-color: #ff9448;
+            color: #1a202c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .formulario button:hover {
+            background-color: #e07b39;
+        }
+        #resultado {
+            font-size: 18px;
+            color: #ff9448;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Área de Triángulos</h1>
+        <div class="formulario">
+            <div>
+                <label>Hipotenusa:</label>
+                <input type="number" id="hipotenusa" placeholder="0" step="0.01" min="0">
+            </div>
+            <div>
+                <label>Cateto 1:</label>
+                <input type="number" id="cateto1" placeholder="0" step="0.01" min="0">
+            </div>
+            <div>
+                <label>Cateto 2:</label>
+                <input type="number" id="cateto2" placeholder="0" step="0.01" min="0">
+            </div>
+            <div>
+                <label>Altura:</label>
+                <input type="number" id="altura" placeholder="0" step="0.01" min="0">
+            </div>
+            <button onclick="calcularArea()">Calcular Área</button>
+            <p id="resultado"></p>
+        </div>
+    </div>
+
+    <script>
+        // Función para calcular un lado faltante usando Pitágoras
+        function calcularPitagoras(hipotenusa, cateto1, cateto2) {
+            if (hipotenusa && cateto1 && !cateto2) {
+                return Math.sqrt(hipotenusa * hipotenusa - cateto1 * cateto1);
+            }
+            if (hipotenusa && !cateto1 && cateto2) {
+                return Math.sqrt(hipotenusa * hipotenusa - cateto2 * cateto2);
+            }
+            if (!hipotenusa && cateto1 && cateto2) {
+                return Math.sqrt(cateto1 * cateto1 + cateto2 * cateto2);
+            }
+            return null;
+        }
+
+        // Función para calcular el área
+        function calcularArea() {
+            let hipotenusa = parseFloat(document.getElementById('hipotenusa').value) || 0;
+            let cateto1 = parseFloat(document.getElementById('cateto1').value) || 0;
+            let cateto2 = parseFloat(document.getElementById('cateto2').value) || 0;
+            let altura = parseFloat(document.getElementById('altura').value) || 0;
+            const resultado = document.getElementById('resultado');
+
+            // Si falta algún dato, intentar calcularlo con Pitágoras
+            const pitagoras = calcularPitagoras(hipotenusa, cateto1, cateto2);
+            if (pitagoras !== null) {
+                if (!hipotenusa) {
+                    hipotenusa = pitagoras;
+                    document.getElementById('hipotenusa').value = hipotenusa.toFixed(2);
+                } else if (!cateto1) {
+                    cateto1 = pitagoras;
+                    document.getElementById('cateto1').value = cateto1.toFixed(2);
+                } else if (!cateto2) {
+                    cateto2 = pitagoras;
+                    document.getElementById('cateto2').value = cateto2.toFixed(2);
+                }
+            }
+
+            // Verificar si tenemos todos los datos necesarios para calcular el área
+            if (hipotenusa && altura) {
+                const area = (hipotenusa * altura) / 2;
+                resultado.textContent = `Área: ${area.toFixed(2)} unidades²`;
+            } else {
+                resultado.textContent = 'Por favor, completa los campos necesarios (hipotenusa y altura).';
+            }
+        }
+    </script>
+</body>
+</html>
