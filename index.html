@@ -10,6 +10,17 @@
       darkMode: 'class',
       theme: {
         extend: {
+          colors: {
+            'primary-bg': '#1a202c',
+            'container-bg': '#1f2937',
+            'text-color': '#e0e0e0',
+            'accent': '#ff9448',
+            'accent-hover': '#e07b39',
+            'input-bg': '#2d3748',
+            'input-border': '#2d3748',
+            'success': '#48bb78',
+            'error': '#f56565',
+          },
           keyframes: {
             slideIn: {
               '0%': { transform: 'translateY(-100%)', opacity: '0' },
@@ -30,24 +41,24 @@
     }
   </script>
 </head>
-<body class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
+<body class="min-h-screen bg-primary-bg text-text-color flex flex-col transition-colors duration-300">
   <div id="login-section" class="flex items-center justify-center min-h-screen">
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h1>
+    <div class="bg-container-bg p-8 rounded-lg shadow-lg w-full max-w-md">
+      <h1 class="text-2xl font-bold mb-6 text-center text-accent">Iniciar Sesión</h1>
       <form id="login-form" onsubmit="handleLogin(event)">
         <div class="mb-4">
-          <label for="username" class="block text-sm font-medium mb-2">Usuario</label>
-          <input type="text" id="username" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+          <label for="username" class="block text-sm font-medium mb-2 text-text-color">Usuario</label>
+          <input type="text" id="username" class="w-full p-2 border rounded bg-input-bg border-input-border focus:outline-none focus:ring-2 focus:ring-accent" required>
         </div>
-        <button id="login-btn" type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition">Entrar</button>
+        <button id="login-btn" type="submit" class="w-full bg-accent text-primary-bg p-2 rounded hover:bg-accent-hover transition">Entrar</button>
       </form>
       <div id="login-message" class="mt-4 text-center hidden"></div>
     </div>
   </div>
 
   <div id="main-content" class="hidden flex-grow flex flex-col">
-    <header class="bg-blue-600 dark:bg-blue-800 text-white p-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold">Central de Ejercicios</h1>
+    <header class="bg-container-bg text-text-color p-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-accent">Central de Ejercicios</h1>
       <button id="theme-toggle" class="text-2xl focus:outline-none">
         <svg id="theme-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path id="moon-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
@@ -56,30 +67,30 @@
     </header>
 
     <main class="flex-grow p-6 flex justify-center items-center space-x-4">
-      <button id="html-btn" class="bg-green-500 dark:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-green-600 dark:hover:bg-green-700 transition">
+      <button id="html-btn" class="bg-accent text-primary-bg px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-accent-hover transition">
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
-          <path fill="white" d="M 8.5 5 A 1.50015 1.50015 0 0 0 7.0039062 6.6191406 L 9.5664062 38.980469 A 1.50015 1.50015 0 0 0 10.554688 40.275391 L 23.494141 44.912109 A 1.50015 1.50015 0 0 0 24.505859 44.912109 L 37.445312 40.275391 A 1.50015 1.50015 0 0 0 38.433594 38.980469 L 40.996094 6.6191406 A 1.50015 1.50015 0 0 0 39.5 5 L 8.5 5 z M 10.125 8 L 37.875 8 L 35.519531 37.777344 L 24 41.90625 L 12.480469 37.777344 L 10.125 8 z M 14.980469 13 L 15.880859 25 L 29.289062 25 L 28.820312 31.380859 L 24.009766 32.919922 L 19.359375 31.390625 L 19.109375 28 L 16.099609 28 L 16.519531 33.609375 L 23.990234 36.080078 L 31.660156 33.619141 L 32.519531 22 L 18.660156 22 L 18.220703 16 L 32.759766 16 L 32.990234 13 L 14.980469 13 z"></path>
+          <path fill="#e0e0e0" d="M 8.5 5 A 1.50015 1.50015 0 0 0 7.0039062 6.6191406 L 9.5664062 38.980469 A 1.50015 1.50015 0 0 0 10.554688 40.275391 L 23.494141 44.912109 A 1.50015 1.50015 0 0 0 24.505859 44.912109 L 37.445312 40.275391 A 1.50015 1.50015 0 0 0 38.433594 38.980469 L 40.996094 6.6191406 A 1.50015 1.50015 0 0 0 39.5 5 L 8.5 5 z M 10.125 8 L 37.875 8 L 35.519531 37.777344 L 24 41.90625 L 12.480469 37.777344 L 10.125 8 z M 14.980469 13 L 15.880859 25 L 29.289062 25 L 28.820312 31.380859 L 24.009766 32.919922 L 19.359375 31.390625 L 19.109375 28 L 16.099609 28 L 16.519531 33.609375 L 23.990234 36.080078 L 31.660156 33.619141 L 32.519531 22 L 18.660156 22 L 18.220703 16 L 32.759766 16 L 32.990234 13 L 14.980469 13 z"></path>
         </svg>
         <span>Ejercicios de HTML</span>
       </button>
-      <button id="js-btn" class="bg-yellow-500 dark:bg-yellow-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-yellow-600 dark:hover:bg-yellow-700 transition">
+      <button id="js-btn" class="bg-accent text-primary-bg px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-accent-hover transition">
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
-          <path fill="white" d="M 6.6992188 4 C 5.2066261 4 4 5.2066262 4 6.6992188 L 4 43.300781 C 4 44.40234 4.7546537 45.165751 5.6992188 45.585938 L 5.6992188 46.099609 L 43.300781 46.099609 C 44.793374 46.099609 46 44.892983 46 43.400391 L 46 6.6992188 C 46 5.2066261 44.867057 4 43.400391 4 L 6.6992188 4 z M 6.6992188 6 L 43.400391 6 C 43.533724 6 44 6.3918113 44 6.6992188 L 44 43.400391 C 44 43.707798 43.608189 44.099609 43.300781 44.099609 L 7.6992188 44.099609 L 7.6992188 44 L 6.6992188 44 C 6.3918112 44 6 43.608189 6 43.300781 L 6 6.6992188 C 6 6.3918112 6.3918113 6 6.6992188 6 z M 23 23 L 23 35.599609 C 23 37.499609 22.3 38 21 38 C 19.6 38 18.699609 37.199609 18.099609 36.099609 L 15 38 C 15.9 39.9 18.099219 42 21.199219 42 C 24.699219 42 27 40.199219 27 36.199219 L 27 23 L 23 23 z M 35.400391 23.099609 C 32.000391 23.099609 29.800781 25.199609 29.800781 28.099609 C 29.800781 31.199609 31.600391 32.600781 34.400391 33.800781 C 36.000391 34.400781 38.2 35.099219 38 36.699219 C 38 37.799219 37.199609 38.599609 35.599609 38.599609 C 33.699609 38.599609 32.8 37.3 32 36 L 28.900391 38.099609 C 30.000391 40.299609 32.099609 42.099609 35.599609 42.099609 C 39.199609 42.099609 41.900391 40.200781 41.900391 36.800781 C 42.000391 33.300781 39.100781 31.700391 35.800781 30.400391 C 34.200781 29.700391 33.5 29.199609 33.5 28.099609 C 33.5 27.199609 34.200781 26.5 35.300781 26.5 C 36.400781 26.5 37.100781 26.899609 37.800781 28.099609 L 40.800781 26.199219 C 39.600781 23.899219 37.800391 23.099609 35.400391 23.099609 z"></path>
+          <path fill="#e0e0e0" d="M 6.6992188 4 C 5.2066261 4 4 5.2066262 4 6.6992188 L 4 43.300781 C 4 44.40234 4.7546537 45.165751 5.6992188 45.585938 L 5.6992188 46.099609 L 43.300781 46.099609 C 44.793374 46.099609 46 44.892983 46 43.400391 L 46 6.6992188 C 46 5.2066261 44.867057 4 43.400391 4 L 6.6992188 4 z M 6.6992188 6 L 43.400391 6 C 43.533724 6 44 6.3918113 44 6.6992188 L 44 43.400391 C 44 43.707798 43.608189 44.099609 43.300781 44.099609 L 7.6992188 44.099609 L 7.6992188 44 L 6.6992188 44 C 6.3918112 44 6 43.608189 6 43.300781 L 6 6.6992188 C 6 6.3918112 6.3918113 6 6.6992188 6 z M 23 23 L 23 35.599609 C 23 37.499609 22.3 38 21 38 C 19.6 38 18.699609 37.199609 18.099609 36.099609 L 15 38 C 15.9 39.9 18.099219 42 21.199219 42 C 24.699219 42 27 40.199219 27 36.199219 L 27 23 L 23 23 z M 35.400391 23.099609 C 32.000391 23.099609 29.800781 25.199609 29.800781 28.099609 C 29.800781 31.199609 31.600391 32.600781 34.400391 33.800781 C 36.000391 34.400781 38.2 35.099219 38 36.699219 C 38 37.799219 37.199609 38.599609 35.599609 38.599609 C 33.699609 38.599609 32.8 37.3 32 36 L 28.900391 38.099609 C 30.000391 40.299609 32.099609 42.099609 35.599609 42.099609 C 39.199609 42.099609 41.900391 40.200781 41.900391 36.800781 C 42.000391 33.300781 39.100781 31.700391 35.800781 30.400391 C 34.200781 29.700391 33.5 29.199609 33.5 28.099609 C 33.5 27.199609 34.200781 26.5 35.300781 26.5 C 36.400781 26.5 37.100781 26.899609 37.800781 28.099609 L 40.800781 26.199219 C 39.600781 23.899219 37.800391 23.099609 35.400391 23.099609 z"></path>
         </svg>
         <span>Ejercicios de JavaScript</span>
       </button>
     </main>
 
-    <footer class="bg-gray-200 dark:bg-gray-800 p-4 text-center">
+    <footer class="bg-container-bg p-4 text-center text-text-color">
       © Diego Caravantes Monleón <br> <i> Nota: Esta página incluye el ejercicio 3 del bloque 2. </i>
     </footer>
   </div>
 
   <div id="exercise-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-lg">
-      <h2 id="modal-title" class="text-xl font-bold mb-4"></h2>
+    <div class="bg-container-bg p-6 rounded-lg w-full max-w-lg">
+      <h2 id="modal-title" class="text-xl font-bold mb-4 text-accent"></h2>
       <div id="exercise-list" class="flex flex-col space-y-2 max-h-96 overflow-y-auto"></div>
-      <button id="close-modal" class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Cerrar</button>
+      <button id="close-modal" class="mt-4 bg-accent text-primary-bg px-4 py-2 rounded hover:bg-accent-hover transition">Cerrar</button>
     </div>
   </div>
 
@@ -96,6 +107,7 @@
       { name: "Mostrar del 1 al 10", file: "js/array1-10.html" },
       { name: "Array de 5 nombres", file: "js/arraynombres.html" },
       { name: "Array de precios y cálculo del total", file: "js/precios.html" },
+      { name: "¿Es par? [WEB VACÍA]", file: "js/par.html" },
       { name: "Área de triángulo", file: "js/areatriangulo.html" },
       { name: "Programa completo: Nombre, edad, media de notas con función y resumen de datos", file: "js/final.html" },
     ];
@@ -103,8 +115,8 @@
     const html = document.getElementById('html');
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const moonIcon = `<path id="moon-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />`;
-    const sunIcon = `<circle id="sun-icon" cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />`;
+    const moonIcon = `<path id="moon-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#e0e0e0" />`;
+    const sunIcon = `<circle id="sun-icon" cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />` + ` stroke="#1a202c"`;
     const currentTheme = localStorage.getItem('theme') || 'dark';
     if (currentTheme === 'light') {
       html.classList.remove('dark');
@@ -147,8 +159,8 @@
       
       if (username === 'admin') {
         loginMessage.textContent = 'Acceso Permitido';
-        loginMessage.classList.remove('text-red-500', 'animate-shake');
-        loginMessage.classList.add('text-green-500', 'animate-slideIn');
+        loginMessage.classList.remove('text-error', 'animate-shake');
+        loginMessage.classList.add('text-success', 'animate-slideIn');
         setCookie('loggedIn', 'true', 30);
         setTimeout(() => {
           loginSection.classList.add('hidden');
@@ -156,8 +168,8 @@
         }, 500);
       } else {
         loginMessage.textContent = 'Acceso Denegado';
-        loginMessage.classList.remove('text-green-500', 'animate-slideIn');
-        loginMessage.classList.add('text-red-500', 'animate-shake');
+        loginMessage.classList.remove('text-success', 'animate-slideIn');
+        loginMessage.classList.add('text-error', 'animate-shake');
         setTimeout(() => {
           loginMessage.classList.add('hidden');
           document.getElementById('username').value = '';
@@ -179,7 +191,7 @@
         const button = document.createElement('a');
         button.href = ex.file;
         button.target = '_blank';
-        button.className = 'block bg-blue-500 dark:bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-700 transition text-center';
+        button.className = 'block bg-accent text-primary-bg px-4 py-2 rounded hover:bg-accent-hover transition text-center';
         button.textContent = ex.name;
         exerciseList.appendChild(button);
       });
